@@ -213,10 +213,10 @@ sudo apt-get install -y certbot python3-certbot-nginx
 
 3. SSL証明書の取得
 
-以下のコマンドを実行して、ドメイン用のSSL証明書を取得します。`activepieces.revol-one.com`をあなたのドメイン名に置き換えてください。
+以下のコマンドを実行して、ドメイン用のSSL証明書を取得します。`activepiecestest.revol-one.com`をあなたのドメイン名に置き換えてください。
 
 ```sh
-sudo certbot --nginx -d activepieces.revol-one.com
+sudo certbot --nginx -d activepiecestest.revol-one.com
 ```
 
 途中は下記のような入力が求められます。
@@ -240,7 +240,7 @@ EFF news, campaigns, and ways to support digital freedom.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (Y)es/(N)o: Y　#だまって"Y"
 Account registered.
-Requesting a certificate for activepieces.revol-one.com
+Requesting a certificate for activepiecestest.revol-one.com
 ```
 
 
@@ -253,7 +253,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name activepieces.revol-one.com;
+    server_name activepiecestest.revol-one.com;
 
     return 301 https://\$server_name\$request_uri;
 }
@@ -262,10 +262,10 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    server_name activepieces.revol-one.com;
+    server_name activepiecestest.revol-one.com;
 
-    ssl_certificate /etc/letsencrypt/live/activepieces.revol-one.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/activepieces.revol-one.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/activepiecestest.revol-one.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/activepiecestest.revol-one.com/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
@@ -287,14 +287,14 @@ server {
 }
 
 server {
-    if (\$host = activepieces.revol-one.com) {
+    if (\$host = activepiecestest.revol-one.com) {
         return 301 https://\$host\$request_uri;
     }
 
     listen 80;
     listen [::]:80;
 
-    server_name activepieces.revol-one.com;
+    server_name activepiecestest.revol-one.com;
     return 404;
 }
 EOF
@@ -358,7 +358,7 @@ EC2インスタンスのセキュリティグループを設定し、ポート44
 sudo nano ~/activepieces/.env
 
 # 以下の行を追加または修正
-AP_FRONTEND_URL="https://activepieces.revol-one.com"
+AP_FRONTEND_URL="https://activepiecestest.revol-one.com"
 ```
 
 ## 完了

@@ -349,7 +349,7 @@ EC2インスタンスのセキュリティグループを設定し、ポート44
    - ポート範囲: 443
    - ソース: 任意の場所（0.0.0.0/0）または必要に応じたIP範囲
 
-## ステップ8: Activepiecesの運用設定変更（必要に応じて）
+## ステップ8: Activepiecesの運用設定変更
 
 `AP_FRONTEND_URL`をHTTPSで設定します：
 設定項目は
@@ -363,7 +363,7 @@ sudo nano ~/activepieces/.env
 
 以下の行を追加または修正
 ```sh
-AP_FRONTEND_URL="https://activepiecestest.revol-one.com"
+AP_FRONTEND_URL="https://activepiecestest.revol-one.com" #絶対やるべき。これやらないと暗号化されていないhttpでWebHookを使うことになる。
 AP_FLOW_WORKER_CONCURRENCY=30
 AP_TRIGGER_DEFAULT_POLL_INTERVAL=1　#←これは元々あると思うので"1"に修正
 ```

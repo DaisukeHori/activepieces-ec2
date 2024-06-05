@@ -18,6 +18,8 @@
 
 インストール完了後は下記のようになります。のでメモリは1GBでギリギリ。2GBである程度は。4GBあれば余裕がありそうです。
 ```sh
+sudo apt-get install sysstat
+mpstat
 top - 06:11:46 up 38 min,  1 user,  load average: 0.00, 0.00, 0.09
 Tasks: 134 total,   1 running, 133 sleeping,   0 stopped,   0 zombie
 %Cpu(s):  0.0 us,  0.2 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.2 st 

@@ -16,6 +16,16 @@
 - t3small:V2Core2GB:$20/月
 - t3midium:V2Core4GB:$40/月
 
+インストール完了後は下記のようになります。のでメモリは1GBでギリギリ。2GBである程度は。4GBあれば余裕がありそうです。
+```sh
+top - 06:11:46 up 38 min,  1 user,  load average: 0.00, 0.00, 0.09
+Tasks: 134 total,   1 running, 133 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.2 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.2 st 
+MiB Mem :   3836.9 total,    173.9 free,    908.7 used,   3076.5 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   2928.3 avail Mem 
+```
+
+
 ## ステップ1: 古いDocker関連パッケージの削除
 
 以下のコマンドを実行して、古いDocker関連パッケージを削除します。

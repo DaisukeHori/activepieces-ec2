@@ -303,15 +303,8 @@ EOF
 sudo systemctl restart nginx
 ```
 
-## ステップ6: ActivepiecesのDockerコンテナの実行
 
-1. ActivepiecesのDockerコンテナを実行
-
-```sh
-docker run -d --restart unless-stopped -p 8080:80 -v ~/.activepieces:/root/.activepieces -e AP_QUEUE_MODE=MEMORY -e AP_DB_TYPE=SQLITE3 -e AP_FRONTEND_URL="http://localhost:8080" --name activepieces_container activepieces/activepieces:latest
-```
-
-## ステップ7: サーバ再起動後の自動起動設定
+## ステップ6: サーバ再起動後の自動起動設定
 
 1. Docker Composeのサービスファイルを作成
 
@@ -343,7 +336,7 @@ sudo systemctl enable docker-compose-activepieces
 sudo systemctl start docker-compose-activepieces #ここめちゃ時間かかるのでしばらくほっとく
 ```
 
-## ステップ8: セキュリティグループの設定
+## ステップ7: セキュリティグループの設定
 
 EC2インスタンスのセキュリティグループを設定し、ポート443を許可します。
 
@@ -356,7 +349,7 @@ EC2インスタンスのセキュリティグループを設定し、ポート44
    - ポート範囲: 443
    - ソース: 任意の場所（0.0.0.0/0）または必要に応じたIP範囲
 
-## ステップ9: Activepiecesの設定変更（必要に応じて）
+## ステップ8: Activepiecesの設定変更（必要に応じて）
 
 `AP_FRONTEND_URL`をHTTPSで設定します：
 

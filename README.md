@@ -352,7 +352,9 @@ EC2インスタンスのセキュリティグループを設定し、ポート44
 ## ステップ8: Activepiecesの運用設定変更（必要に応じて）
 
 `AP_FRONTEND_URL`をHTTPSで設定します：
-設定項目ははhttps://www.activepieces.com/docs/install/configurations/environment-variablesを参照のこと
+設定項目は
+https://www.activepieces.com/docs/install/configurations/environment-variables
+を参照のこと
 
 Docker Compose環境変数ファイルを編集
 ```sh

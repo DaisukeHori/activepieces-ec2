@@ -219,6 +219,32 @@ sudo apt-get install -y certbot python3-certbot-nginx
 sudo certbot --nginx -d activepieces.revol-one.com
 ```
 
+途中は下記のような入力が求められます。
+```sh
+Enter email address (used for urgent renewal and security notices)
+ (Enter 'c' to cancel): xxxx@xxx.co.jp ＃管理用？メールアドレス。確認連絡も来ないようなのでなんでもいい。               
+```sh
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.4-April-3-2024.pdf. You must agree in
+order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y　#だまって"Y"
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let's Encrypt project and the non-profit organization that
+develops Certbot? We'd like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y　#だまって"Y"
+Account registered.
+Requesting a certificate for activepieces.revol-one.com
+```
+
+
+
 4. Nginxの設定ファイルを編集
 
 ```sh

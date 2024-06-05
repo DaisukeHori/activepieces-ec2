@@ -363,4 +363,4 @@ AP_FRONTEND_URL="https://activepiecestest.revol-one.com"
 
 ## 完了
 
-上記の設定を行った後、Webブラウザから `https://activepieces.revol-one.com` にアクセスしてActivepiecesのインターフェースにSSLでアクセスできるはずです。
+上記の設定を行った後、Webブラウザから `https://activepiecestest.revol-one.com` にアクセスしてActivepiecesのインターフェースにSSLでアクセスできるはずです。

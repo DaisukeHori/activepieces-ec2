@@ -340,7 +340,7 @@ EOF
 ```sh
 sudo systemctl daemon-reload
 sudo systemctl enable docker-compose-activepieces
-sudo systemctl start docker-compose-activepieces
+sudo systemctl start docker-compose-activepieces #ここめちゃ時間かかるのでしばらくほっとく
 ```
 
 ## ステップ8: セキュリティグループの設定

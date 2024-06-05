@@ -24,6 +24,20 @@ Tasks: 134 total,   1 running, 133 sleeping,   0 stopped,   0 zombie
 MiB Mem :   3836.9 total,    173.9 free,    908.7 used,   3076.5 buff/cache     
 MiB Swap:      0.0 total,      0.0 free,      0.0 used.   2928.3 avail Mem 
 ```
+SSDは下記のようになります。10GBでは多分足りません。15GB以上ないときつそうです。
+```sh
+ubuntu@ip-172-31-17-43:~/activepieces$ df -h
+Filesystem       Size  Used Avail Use% Mounted on
+/dev/root         29G  7.2G   21G  26% /
+tmpfs            1.9G     0  1.9G   0% /dev/shm
+tmpfs            768M  1.2M  767M   1% /run
+tmpfs            5.0M     0  5.0M   0% /run/lock
+efivarfs         128K  3.6K  120K   3% /sys/firmware/efi/efivars
+/dev/nvme0n1p16  881M   76M  744M  10% /boot
+/dev/nvme0n1p15  105M  6.1M   99M   6% /boot/efi
+tmpfs            384M   12K  384M   1% /run/user/1000
+```
+
 
 
 ## ステップ1: 古いDocker関連パッケージの削除

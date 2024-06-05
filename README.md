@@ -9,12 +9,14 @@
 - ドメインを取得すること
 - EC2のパブリック IPv4 DNS　（ec2-xx-xx-xxx-xxx.ap-northeast-1.compute.amazonaws.com#こんな感じ）をサブドメイン（一般的にはactivepieces.xxxx.com）にCNAMEで紐づけておくこと
 
-余談：
+### 余談：
 
 - t3nano:V2Core0.5GB:$5/月
 - t3micro:V2Core1GB:$10/月
 - t3small:V2Core2GB:$20/月
 - t3midium:V2Core4GB:$40/月
+
+### インストール後のサーバの状態
 
 インストール完了後は下記のようになります。のでメモリは1GBでギリギリ。2GBである程度は。4GBあれば余裕がありそうです。
 ```sh
@@ -39,6 +41,16 @@ efivarfs         128K  3.6K  120K   3% /sys/firmware/efi/efivars
 /dev/nvme0n1p15  105M  6.1M   99M   6% /boot/efi
 tmpfs            384M   12K  384M   1% /run/user/1000
 ```
+
+### まとめてシステム全体のステータスを確認する
+
+`glances` コマンドを使用すると、システム全体のステータスを一目で確認できます。
+```
+sudo apt-get install glances
+glances
+```
+`glances`はCPU、メモリ、ディスクの使用状況、ネットワークの状態などをリアルタイムで表示します。
+
 
 
 

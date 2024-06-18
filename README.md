@@ -374,3 +374,158 @@ AP_TRIGGER_DEFAULT_POLL_INTERVAL=1　#←これは元々あると思うので"1"
 ## 完了
 
 上記の設定を行った後、Webブラウザから `https://activepiecestest.revol-one.com` にアクセスしてActivepiecesのインターフェースにSSLでアクセスできるはずです。
+
+
+#アップグレード方法
+
+通常、Nginxの設定変更は必要ありません。ただし、次のような場合には設定変更が必要になることがあります。
+
+1. **ドメイン名やサブドメインを変更する場合**: ドメイン名が変わると、Nginxの設定ファイルに新しいドメイン名を反映させる必要があります。
+
+2. **SSL証明書の更新や変更**: SSL証明書の有効期限が切れる前に更新が必要です。この場合、Certbotを使用して新しい証明書を取得し、Nginxを再起動する必要があります。
+
+3. **Nginxの設定変更が必要な場合**: プロキシ設定やセキュリティ設定など、Nginxの設定自体を変更する必要がある場合です。
+
+基本的に、ドメイン名が変わらず、SSL証明書も有効なままであれば、Nginxの設定を変更する必要はありません。
+
+それでは、アップグレード手順の最終確認を行います。
+
+## Activepieces Dockerコンテナのアップグレード手順（最終確認）
+
+### ステップ1: データのバックアップ（推奨）
+
+```sh
+docker stop activepieces_container_name
+cp -r ~/.activepieces ~/.activepieces_backup
+```
+
+### ステップ2: Dockerイメージの更新
+
+```sh
+docker pull activepieces/activepieces:latest
+```
+
+### ステップ3: 既存のActivepiecesコンテナの削除
+
+```sh
+docker stop activepieces_container_name
+docker rm activepieces_container_name
+```
+
+### ステップ4: 更新されたActivepiecesコンテナの起動
+
+```sh
+docker run -d -p 8080:80 -v ~/.activepieces:/root/.activepieces -e AP_QUEUE_MODE=MEMORY -e AP_DB_TYPE=SQLITE3 -e AP_FRONTEND_URL="https://activepiecestest.revol-one.com" --name activepieces_container_name activepieces/activepieces:latest
+```
+
+### ステップ5: サービスの再起動と確認
+
+```sh
+sudo systemctl restart docker-compose-activepieces
+```
+
+### ステップ6: Nginxの設定確認（必要な場合）
+
+```sh
+sudo certbot --nginx -d activepiecestest.revol-one.com
+sudo systemctl restart nginx
+```
+
+この手順でActivepiecesのDockerコンテナをアップグレードすることができます。Nginxの設定変更が必要な場合のみ、手順6を実行してください。
+
+
+#自動アップグレード方法
+
+EC2インスタンスを再起動するたびに自動的にActivepiecesの最新バージョンにアップグレードする設定を行うことは可能です。これを実現するためには、EC2インスタンス起動時に自動的に最新のDockerイメージをプルしてコンテナを再起動するスクリプトを設定する必要があります。
+
+以下の手順で設定します。
+
+### ステップ1: 自動アップグレードスクリプトの作成
+
+1. `/usr/local/bin/update-activepieces.sh`というスクリプトファイルを作成します。
+
+```sh
+sudo tee /usr/local/bin/update-activepieces.sh <<EOF
+#!/bin/bash
+
+# Dockerコンテナの名前
+CONTAINER_NAME="activepieces_container_name"
+
+# 最新のDockerイメージをプル
+docker pull activepieces/activepieces:latest
+
+# 既存のコンテナを停止して削除
+docker stop \${CONTAINER_NAME}
+docker rm \${CONTAINER_NAME}
+
+# 新しいコンテナを起動
+docker run -d -p 8080:80 -v ~/.activepieces:/root/.activepieces -e AP_QUEUE_MODE=MEMORY -e AP_DB_TYPE=SQLITE3 -e AP_FRONTEND_URL="https://activepiecestest.revol-one.com" --name \${CONTAINER_NAME} activepieces/activepieces:latest
+EOF
+```
+
+2. スクリプトに実行権限を付与します。
+
+```sh
+sudo chmod +x /usr/local/bin/update-activepieces.sh
+```
+
+### ステップ2: システムdサービスの作成
+
+1. `/etc/systemd/system/update-activepieces.service`というサービスファイルを作成します。
+
+```sh
+sudo tee /etc/systemd/system/update-activepieces.service <<EOF
+[Unit]
+Description=Update Activepieces Docker Container
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/update-activepieces.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+### ステップ3: サービスをタイマーで実行する設定
+
+1. `/etc/systemd/system/update-activepieces.timer`というタイマーファイルを作成します。
+
+```sh
+sudo tee /etc/systemd/system/update-activepieces.timer <<EOF
+[Unit]
+Description=Run update-activepieces service at startup and every day
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=1d
+
+[Install]
+WantedBy=timers.target
+EOF
+```
+
+### ステップ4: サービスとタイマーを有効化して起動
+
+1. systemdデーモンをリロードします。
+
+```sh
+sudo systemctl daemon-reload
+```
+
+2. サービスとタイマーを有効化します。
+
+```sh
+sudo systemctl enable update-activepieces.service
+sudo systemctl enable update-activepieces.timer
+```
+
+3. サービスとタイマーを開始します。
+
+```sh
+sudo systemctl start update-activepieces.timer
+```
+
+この設定により、EC2インスタンスの起動から15分後および毎日自動的にActivepiecesのDockerコンテナがアップグレードされます。再起動時にも自動的に最新バージョンが取得され、サービスが再起動されるようになります。
